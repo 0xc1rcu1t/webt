@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Correção de Indentação</title>
+	<script>
+		function corrigirIndentacao() {
+			// Obtém o código do usuário
+			var codigo = document.getElementById("codigo").value;
+			
+			// Divide o código em linhas
+			var linhas = codigo.split("\n");
+			
+			// Variável para armazenar o código indentado corrigido
+			var codigoCorrigido = "";
+			
+			// Contador de indentação
+			var indentacao = 0;
+			
+			// Loop através de cada linha do código
+			for (var i = 0; i < linhas.length; i++) {
+				var linha = linhas[i].trim();
+				
+				// Verifica se a linha começa com uma palavra-chave de final de bloco
+				if (linha.startsWith("elif") || linha.startsWith("else") || linha.startsWith("except") || linha.startsWith("finally")) {
+					indentacao -= 1;
+				}
+				
+				// Adiciona a linha atual ao código indentado corrigido
+				codigoCorrigido += "\t".repeat(indentacao) + linha + "\n";
+				
+				// Verifica se a linha atual começa com uma palavra-chave de início de bloco
+				if (linha.endsWith(":") || linha.endsWith("if") || linha.endsWith("for") || linha.endsWith("while") || linha.endsWith("try")) {
+					indentacao += 1;
+				}
+			}
+			
+			// Define o valor da caixa de texto como o código indentado corrigido
+			document.getElementById("codigo").value = codigoCorrigido;
+		}
+	</script>
+</head>
+<body>
+	<h1>Correção de Indentação</h1>
+	
+	<p>Cole seu código Python na caixa de texto abaixo e clique no botão para corrigir a indentação:</p>
+	
+	<textarea id="codigo" rows="10" cols="50"></textarea>
+	
+	<br>
+	
+	<button onclick="corrigirIndentacao()">Corrigir Indentação</button>
+</body>
+</html>
