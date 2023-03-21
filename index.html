@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Identificador de Código Python</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<h1>Identificador de Código Python</h1>
+	<p>Cole seu código Python abaixo:</p>
+	<textarea id="codigo" rows="10" cols="50"></textarea>
+	<button onclick="identificar()">Identificar</button>
+	<p id="resultado"></p>
+	
+	<script>
+		function identificar() {
+			// Obtém o código digitado pelo usuário
+			var codigo = document.getElementById("codigo").value;
+			
+			// Verifica se o código está corretamente identado
+			var indentado = "";
+			var linhas = codigo.split('\n');
+			var indentacao = 0;
+			var indentadoCorretamente = true;
+			for (var i = 0; i < linhas.length; i++) {
+				var linha = linhas[i].trim();
+				if (linha.startsWith("def") || linha.startsWith("class")) {
+					indentado += "\t".repeat(indentacao) + linha + "\n";
+					indentacao++;
+				} else if (linha.endsWith(":")) {
+					indentado += "\t".repeat(indentacao) + linha + "\n";
+				} else if (linha == "") {
+					indentado += "\n";
+				} else {
+					indentado += "\t".repeat(indentacao) + linha + "\n";
+					if (linha.endsWith(")") || linha.endsWith("]")) {
+						indentacao--;
+					}
+				}
+				if (indentacao < 0) {
+					indentadoCorretamente = false;
+					break;
+				}
+			}
+			
+			// Exibe o resultado
+			if (indentadoCorretamente) {
+				document.getElementById("resultado").innerHTML = "<pre>" + indentado + "</pre>";
+			} else {
+				document.getElementById("resultado").innerHTML = "<p>O código Python digitado não está corretamente identado.</p>";
+			}
+		}
+	</script>
+</body>
+</html>
